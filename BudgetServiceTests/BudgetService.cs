@@ -11,6 +11,7 @@ public class BudgetService
 
     public decimal Query(DateTime start, DateTime end)
     {
-        return 0;
+        var budgets = _budgetRepo.GetAll();
+        return budgets.Sum((x) => x.Amount);
     }
 }

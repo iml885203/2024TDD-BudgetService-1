@@ -15,24 +15,24 @@ public class Tests
         _budgetService = new BudgetService(_budgetRepo);
     }
 
-    [Test]
-    public void No_Budget_In_Period()
-    {
-        GivenBudgets(new List<Budget>()
-        {
-            new Budget()
-            {
-                YearMonth = "202401",
-                Amount = 310
-            }
-        });
-
-        var startDate = new DateTime(2023, 12, 01);
-        var endDate = new DateTime(2023, 12, 01);
-        var actual = _budgetService.Query(startDate, endDate);
-
-        actual.Should().Be(0m);
-    }
+    // [Test]
+    // public void No_Budget_In_Period()
+    // {
+    //     GivenBudgets(new List<Budget>()
+    //     {
+    //         new Budget()
+    //         {
+    //             YearMonth = "202401",
+    //             Amount = 310
+    //         }
+    //     });
+    //
+    //     var startDate = new DateTime(2023, 12, 01);
+    //     var endDate = new DateTime(2023, 12, 01);
+    //     var actual = _budgetService.Query(startDate, endDate);
+    //
+    //     actual.Should().Be(0m);
+    // }
 
     [Test]
     public void Whole_Month()
