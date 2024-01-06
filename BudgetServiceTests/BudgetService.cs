@@ -21,22 +21,22 @@ public class BudgetService
         {
             return 0;
         }
-        var diffDays = (end - start).Days + 1;
 
         var sum = 0;
-        for (var date = start; date <= end; date = date.AddMonths(1))
+        for (var date = start; date <= end; date = date.AddDays(1))
         {
             var budget = budgets.FirstOrDefault(x =>
             {
                 var budgetDate = DateTime.Parse(x.YearMonth.Insert(4, "-"));
-                return budgetDate.Year == start.Year && budgetDate.Month == start.Month;
+                return budgetDate.Year == date.Year && budgetDate.Month == date.Month;
             });
             if (budget == null)
             {
                 continue;
             }
             var budgetDate = DateTime.Parse(budget.YearMonth.Insert(4, "-"));
-            sum += budget.Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month) * diffDays;
+            var amountPerDay = budget.Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month);
+            sum += amountPerDay;
         }
 
         return sum;

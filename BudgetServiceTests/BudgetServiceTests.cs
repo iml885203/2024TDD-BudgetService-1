@@ -117,7 +117,6 @@ public class Tests
     }
 
     [Test]
-    [Ignore("later")]
     public void Query_Two_Months()
     {
         GivenBudgets(new List<Budget>()
