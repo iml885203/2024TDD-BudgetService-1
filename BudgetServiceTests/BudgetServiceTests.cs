@@ -27,11 +27,11 @@ public class Tests
                 Amount = 310
             }
         });
-    
+
         var startDate = new DateTime(2023, 12, 01);
         var endDate = new DateTime(2023, 12, 01);
         var actual = _budgetService.Query(startDate, endDate);
-    
+
         actual.Should().Be(0m);
     }
 
@@ -71,6 +71,25 @@ public class Tests
         var actual = _budgetService.Query(startDate, endDate);
 
         actual.Should().Be(10m);
+    }
+
+    [Test]
+    public void Few_Days_In_Month()
+    {
+        GivenBudgets(new List<Budget>()
+        {
+            new Budget()
+            {
+                YearMonth = "202401",
+                Amount = 310
+            }
+        });
+
+        var startDate = new DateTime(2024, 01, 01);
+        var endDate = new DateTime(2024, 01, 05);
+        var actual = _budgetService.Query(startDate, endDate);
+
+        actual.Should().Be(50m);
     }
 
     private void GivenBudgets(List<Budget> budgets)
