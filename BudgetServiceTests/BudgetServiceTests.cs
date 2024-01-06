@@ -145,6 +145,30 @@ public class Tests
         actual.Should().Be(520m);
     }
 
+    [Test]
+    public void Invalid_Period()
+    {
+        GivenBudgets(new List<Budget>()
+        {
+            new Budget()
+            {
+                YearMonth = "202401",
+                Amount = 310
+            },
+            new Budget()
+            {
+                YearMonth = "202402",
+                Amount = 2900
+            }
+        });
+
+        var startDate = new DateTime(2024, 02, 05);
+        var endDate = new DateTime(2024, 01, 30);
+        var actual = _budgetService.Query(startDate, endDate);
+
+        actual.Should().Be(0m);
+    }
+
     private void GivenBudgets(List<Budget> budgets)
     {
         _budgetRepo.GetAll().Returns(budgets);
