@@ -16,7 +16,6 @@ public class Tests
     }
 
     [Test]
-    [Ignore("later")]
     public void No_Budget_In_Period()
     {
         GivenBudgets(new List<Budget>()
