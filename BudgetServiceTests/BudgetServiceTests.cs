@@ -9,7 +9,6 @@ public class Tests
     private IBudgetRepo _budgetRepo = null!;
 
     [SetUp]
-
     public void Setup()
     {
         _budgetRepo = Substitute.For<IBudgetRepo>();
@@ -19,7 +18,7 @@ public class Tests
     [Test]
     public void No_Budget_In_Period()
     {
-        _budgetRepo.GetAll().Returns(new List<Budget>()
+        GivenBudgets(new List<Budget>()
         {
             new Budget()
             {
@@ -27,11 +26,35 @@ public class Tests
                 Amount = 310
             }
         });
-        
+
         var startDate = new DateTime(2023, 12, 01);
         var endDate = new DateTime(2023, 12, 01);
         var actual = _budgetService.Query(startDate, endDate);
-        
+
         actual.Should().Be(0m);
+    }
+
+    [Test]
+    public void Whole_Month()
+    {
+        GivenBudgets(new List<Budget>()
+        {
+            new Budget()
+            {
+                YearMonth = "202401",
+                Amount = 310
+            }
+        });
+
+        var startDate = new DateTime(2024, 01, 01);
+        var endDate = new DateTime(2024, 01, 31);
+        var actual = _budgetService.Query(startDate, endDate);
+
+        actual.Should().Be(310m);
+    }
+
+    private void GivenBudgets(List<Budget> budgets)
+    {
+        _budgetRepo.GetAll().Returns(budgets);
     }
 }
