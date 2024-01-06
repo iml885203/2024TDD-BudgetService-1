@@ -12,15 +12,6 @@ public class BudgetService
     public decimal Query(DateTime start, DateTime end)
     {
         var budgets = _budgetRepo.GetAll();
-        var isBudgetExists = budgets.Any((x) =>
-        {
-            var budgetDate = DateTime.Parse(x.YearMonth.Insert(4, "-"));
-            return budgetDate.Year == start.Year && budgetDate.Month == start.Month;
-        });
-        if (!isBudgetExists)
-        {
-            return 0;
-        }
 
         var sum = 0;
         for (var date = start; date <= end; date = date.AddDays(1))
