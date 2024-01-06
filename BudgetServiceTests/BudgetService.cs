@@ -12,6 +12,8 @@ public class BudgetService
     public decimal Query(DateTime start, DateTime end)
     {
         var budgets = _budgetRepo.GetAll();
-        return budgets.Sum((x) => x.Amount);
+        var timeSpan = end - start;
+
+        return budgets.Sum((x) => x.Amount) / 31m * (timeSpan.Days + 1);
     }
 }
