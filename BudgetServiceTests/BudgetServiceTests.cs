@@ -52,6 +52,24 @@ public class Tests
 
         actual.Should().Be(310m);
     }
+    [Test]
+    public void Whole_Month2()
+    {
+        GivenBudgets(new List<Budget>()
+        {
+            new Budget()
+            {
+                YearMonth = "202402",
+                Amount = 2900
+            }
+        });
+
+        var startDate = new DateTime(2024, 02, 01);
+        var endDate = new DateTime(2024, 02, 29);
+        var actual = _budgetService.Query(startDate, endDate);
+
+        actual.Should().Be(2900m);
+    }
 
     [Test]
     public void Single_Day()
@@ -89,6 +107,31 @@ public class Tests
         var actual = _budgetService.Query(startDate, endDate);
 
         actual.Should().Be(50m);
+    }
+
+    [Test]
+    [Ignore("later")]
+    public void Query_Two_Months()
+    {
+        GivenBudgets(new List<Budget>()
+        {
+            new Budget()
+            {
+                YearMonth = "202401",
+                Amount = 310
+            },
+            new Budget()
+            {
+                YearMonth = "202402",
+                Amount = 2900
+            }
+        });
+
+        var startDate = new DateTime(2024, 01, 01);
+        var endDate = new DateTime(2024, 02, 29);
+        var actual = _budgetService.Query(startDate, endDate);
+
+        actual.Should().Be(3210m);
     }
 
     private void GivenBudgets(List<Budget> budgets)
