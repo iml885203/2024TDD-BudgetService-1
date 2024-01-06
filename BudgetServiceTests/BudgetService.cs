@@ -25,9 +25,8 @@ public class BudgetService
             {
                 continue;
             }
-            var budgetDate = budget.BudgetDate();
-            var amountPerDay = budget.Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month);
-            sum += amountPerDay;
+
+            sum += budget.AmountPerDay();
         }
 
         return sum;
