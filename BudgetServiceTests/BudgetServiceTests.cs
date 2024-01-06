@@ -33,9 +33,10 @@ public class Tests
 
         actual.Should().Be(0m);
     }
-
-    [Test]
-    public void Whole_Month()
+    
+    [TestCase("2024-01-01", "2024-01-31", 310)]
+    [TestCase("2024-02-01", "2024-02-29", 2900)]
+    public void Whole_Month(string start, string end, decimal expected)
     {
         GivenBudgets(new List<Budget>()
         {
@@ -43,20 +44,7 @@ public class Tests
             {
                 YearMonth = "202401",
                 Amount = 310
-            }
-        });
-
-        var startDate = new DateTime(2024, 01, 01);
-        var endDate = new DateTime(2024, 01, 31);
-        var actual = _budgetService.Query(startDate, endDate);
-
-        actual.Should().Be(310m);
-    }
-    [Test]
-    public void Whole_Month2()
-    {
-        GivenBudgets(new List<Budget>()
-        {
+            },
             new Budget()
             {
                 YearMonth = "202402",
@@ -64,12 +52,31 @@ public class Tests
             }
         });
 
-        var startDate = new DateTime(2024, 02, 01);
-        var endDate = new DateTime(2024, 02, 29);
+        var startDate = DateTime.Parse(start);
+        var endDate = DateTime.Parse(end);
         var actual = _budgetService.Query(startDate, endDate);
 
-        actual.Should().Be(2900m);
+        actual.Should().Be(expected);
     }
+    // [Test]
+    // // [Ignore("later")]
+    // public void Whole_Month2()
+    // {
+    //     GivenBudgets(new List<Budget>()
+    //     {
+    //         new Budget()
+    //         {
+    //             YearMonth = "202402",
+    //             Amount = 2900
+    //         }
+    //     });
+    //
+    //     var startDate = new DateTime(2024, 02, 01);
+    //     var endDate = new DateTime(2024, 02, 29);
+    //     var actual = _budgetService.Query(startDate, endDate);
+    //
+    //     actual.Should().Be(2900m);
+    // }
 
     [Test]
     public void Single_Day()

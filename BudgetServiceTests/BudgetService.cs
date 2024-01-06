@@ -23,6 +23,22 @@ public class BudgetService
         }
         var diffDays = (end - start).Days + 1;
 
-        return (decimal)budgets.Sum((x) => x.Amount) / DateTime.DaysInMonth(start.Year, start.Month) * diffDays;
+        var sum = 0;
+        for (var date = start; date <= end; date = date.AddMonths(1))
+        {
+            var budget = budgets.FirstOrDefault(x =>
+            {
+                var budgetDate = DateTime.Parse(x.YearMonth.Insert(4, "-"));
+                return budgetDate.Year == start.Year && budgetDate.Month == start.Month;
+            });
+            if (budget == null)
+            {
+                continue;
+            }
+            var budgetDate = DateTime.Parse(budget.YearMonth.Insert(4, "-"));
+            sum += budget.Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month) * diffDays;
+        }
+
+        return sum;
     }
 }
