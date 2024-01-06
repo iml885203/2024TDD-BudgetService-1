@@ -7,11 +7,12 @@ public class Budget
 
     public DateTime BudgetDate()
     {
-        return DateTime.Parse(YearMonth.Insert(4, "-"));
+        return DateTime.ParseExact(YearMonth, "yyyyMM", System.Globalization.CultureInfo.InvariantCulture);
     }
 
     public int AmountPerDay()
     {
-        return Amount / DateTime.DaysInMonth(BudgetDate().Year, BudgetDate().Month);
+        var budgetDate = BudgetDate();
+        return Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month);
     }
 }

@@ -14,12 +14,12 @@ public class BudgetService
         var budgets = _budgetRepo.GetAll();
 
         var sum = 0;
-        for (var date = start; date <= end; date = date.AddDays(1))
+        for (var current = start; current <= end; current = current.AddDays(1))
         {
             var budget = budgets.FirstOrDefault(x =>
             {
                 var budgetDate = x.BudgetDate();
-                return budgetDate.Year == date.Year && budgetDate.Month == date.Month;
+                return budgetDate.Year == current.Year && budgetDate.Month == current.Month;
             });
             if (budget == null)
             {
