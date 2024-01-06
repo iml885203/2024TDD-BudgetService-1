@@ -18,14 +18,14 @@ public class BudgetService
         {
             var budget = budgets.FirstOrDefault(x =>
             {
-                var budgetDate = DateTime.Parse(x.YearMonth.Insert(4, "-"));
+                var budgetDate = x.BudgetDate();
                 return budgetDate.Year == date.Year && budgetDate.Month == date.Month;
             });
             if (budget == null)
             {
                 continue;
             }
-            var budgetDate = DateTime.Parse(budget.YearMonth.Insert(4, "-"));
+            var budgetDate = budget.BudgetDate();
             var amountPerDay = budget.Amount / DateTime.DaysInMonth(budgetDate.Year, budgetDate.Month);
             sum += amountPerDay;
         }
