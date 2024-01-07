@@ -1,34 +1,16 @@
 namespace BudgetServiceTests;
 
-public class BudgetService
+public class BudgetService(IBudgetRepo budgetRepo)
 {
-    private readonly IBudgetRepo _budgetRepo;
-
-    public BudgetService(IBudgetRepo budgetRepo)
-    {
-        _budgetRepo = budgetRepo;
-    }
-
     public decimal Query(DateTime start, DateTime end)
     {
-        var budgets = _budgetRepo.GetAll();
-
-        var sum = 0;
-        for (var current = start; current <= end; current = current.AddDays(1))
+        if (end < start)
         {
-            var budget = budgets.FirstOrDefault(x =>
-            {
-                var budgetDate = x.BudgetDate();
-                return budgetDate.Year == current.Year && budgetDate.Month == current.Month;
-            });
-            if (budget == null)
-            {
-                continue;
-            }
-
-            sum += budget.AmountPerDay();
+            return 0;
         }
 
-        return sum;
+        var period = new Period(start, end);
+
+        return budgetRepo.GetAll().Sum(budget => budget.GetOverlappingAmount(period));
     }
 }
