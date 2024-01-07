@@ -5,6 +5,11 @@ public class Budget
     public string YearMonth { get; set; } = null!;
     public int Amount { get; set; }
 
+    public decimal GetOverlappingAmount(Period period)
+    {
+        return AmountPerDay() * period.GetOverlappingDays(GetPeriod());
+    }
+
     private DateTime StartDate()
     {
         return DateTime.ParseExact(YearMonth, "yyyyMM", System.Globalization.CultureInfo.InvariantCulture);
@@ -13,11 +18,6 @@ public class Budget
     private int AmountPerDay()
     {
         return Amount / DaysInMonth();
-    }
-
-    public decimal GetOverlappingAmount(Period period)
-    {
-        return AmountPerDay() * period.GetOverLappingDays(GetPeriod());
     }
 
     private Period GetPeriod()
